@@ -15,7 +15,8 @@ for(const span of spans) {
         superscript = span.nextElementSibling;
         // Delay due to page rendering time
         setTimeout(() => {
-            incidentCount = superscript.textContent.trim();
+            incidentCount = parseInt(superscript.textContent.trim());
+            console.log(incidentCount);
         }, 2000);
         break;
     }
@@ -32,12 +33,12 @@ function startMonitoring() {
         element.click();
         superscript = element.nextElementSibling;
         setTimeout(() => {
-            incidentCount = superscript.textContent.trim();
+            incidentCount = parseInt(superscript.textContent.trim());
         })
         if(incidentCount > tempCount) {
             alert('NEW TICKET');
         }
-    }, 180000);
+    }, 150000); // Default monitor interval, 150000 ms = 2.5 minutes
 }
 
 // Ends monitoring
