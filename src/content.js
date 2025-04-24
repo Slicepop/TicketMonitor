@@ -79,6 +79,7 @@ for(const span of spans) {
 // and alerts user if new incident appears
 function startMonitoring() {
     if(interval) return;
+    document.title = "Service Manager (monitoring)";
     element.click();
     interval = setInterval(() => {
         tempCount = incidentCount;
@@ -129,6 +130,7 @@ function stopMonitoring() {
     if(interval) {
         clearInterval(interval);
         interval = null;
+        document.title = "Service Manager";
     }
 }
 

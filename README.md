@@ -46,6 +46,6 @@ If you experience issues, please let me know so I can fix them.
 ### Roadmap
 - Interval duration settings for user
 - Options/settings for audio notification
-- Change title to "Service Manager (monitoring)"
+- ~~ Change title to "Service Manager (monitoring)"~~
 - Monitoring state indicator
 - SLA breach alert
