@@ -7,6 +7,7 @@ Browser extension for Service Manager that can be toggled on to monitor incoming
 TicketMonitor is supported on Chromium-based browsers. (ex: Chrome, Edge, Opera)
 
 ### Installation
+```
 Manual
 1. On this page, click green <> Code button
 2. Click "Download ZIP"
@@ -17,6 +18,15 @@ Manual
 7. Toggle "Developer mode" on
 8. Click "Load unpacked"
 9. Navigate to the new folder -> TicketMonitor-main -> src and select the src folder
+
+Git
+1. Clone repository
+2. Open your choice of Chromium based browser
+3. Navigate to browser extensions -> manage extensions, (Edge - edge://extensions, Chrome - chrome://extensions)
+4. Toggle "Developer mode" on
+5. Click "Load unpacked"
+6. Navigate to the new folder -> TicketMonitor-main -> src and select the src folder
+```
 
 ### Usage
 1. Navigate to "REQUESTS" page in Service Manager
