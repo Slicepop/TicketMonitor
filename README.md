@@ -16,7 +16,8 @@ If you experience issues, please let me know so I can fix them.
 ### Known Issues
 - Toggle is not switched off when leaving Service Manager so you'll have to manually toggle off then on when returning to a Service Manager tab.
 (TicketMonitor does not interact with any tab other than the active tab when toggled on.)
+- While using current version, it's best to manually toggle TicketMonitor off when you are done monitoring the incidents page.
 
 ### Roadmap
-- Add interval duration selection for user
-- Info dropdown in popup?
+- Add interval duration settings for user
+- Add options/settings for audio notification
