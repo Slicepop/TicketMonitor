@@ -1,4 +1,5 @@
 const checkbox = document.querySelector("input[name=monitorCheckbox]");
+let alertAudio = null;
 
 checkbox.addEventListener("change", async (e) => {
     // Get active tab
@@ -9,6 +10,7 @@ checkbox.addEventListener("change", async (e) => {
             monitoring: "true",
             tabId: tab.id
         }
+        chrome.tabs.sendMessage(tab.id, { event: 'initializeAudio' });
         chrome.runtime.sendMessage({ event: 'onStart', prefs });
     // Monitor inactive
     } else {
@@ -23,9 +25,18 @@ checkbox.addEventListener("change", async (e) => {
 chrome.storage.local.get(["monitoring"], (result) => {
     const { monitoring } = result;
 
+    if(typeof monitoring === "undefined") {
+        monitoring = "false";
+        chrome.storage.local.set({ monitoring: "false" });
+    }
+
+    checkbox.checked = monitoring === "true";
+
+    /*
     if(monitoring === "true") {
         checkbox.checked = true;
     } else {
         checkbox.checked = false;
     }
-})
+    */
+});

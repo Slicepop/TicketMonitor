@@ -9,9 +9,13 @@ Browser extension for Service Manager that can be toggled on to monitor incoming
 3. Toggle the switch on
 4. Set tab aside until alerted of new ticket
 
-### Best practice
+### Best Practice
 This extension was quickly built and may experience untested issues, so it is advised now and then to manually check the incident page.
 If you experience issues, please let me know so I can fix them.
+
+### Known Issues
+- Toggle is not switched off when leaving Service Manager so you'll have to manually toggle off then on when returning to a Service Manager tab.
+(TicketMonitor does not interact with any tab other than the active tab when toggled on.)
 
 ### Roadmap
 - Add interval duration selection for user
