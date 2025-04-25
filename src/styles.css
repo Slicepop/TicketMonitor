@@ -27,10 +27,14 @@ body {
 
 .dropdown {
     border: 4px solid darkcyan;
-    border-radius: 15px;
+    /*border-radius: 15px;*/
     font-size: 16px;
-    background-color: #eee;
+    background-color: #1b1d1e;
+    color: #fff;
     padding: 5px;
+    cursor: pointer;
+    font-family: 'Segoe UI';
+    font-weight: 500;
 }
 
 .switch {
@@ -53,7 +57,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: #b6b6b6;
     -webkit-transition: .4s;
     transition: .4s;
 }
@@ -85,9 +89,9 @@ input:checked + .slider:before {
 }
 
 .slider.round {
-    border-radius: 34px;
+    /*border-radius: 34px;*/
 }
   
 .slider.round:before {
-    border-radius: 50%;
+    /*border-radius: 50%;*/
 }

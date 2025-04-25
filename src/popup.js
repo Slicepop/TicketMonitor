@@ -1,6 +1,5 @@
 const checkbox = document.querySelector("input[name=monitorCheckbox]");
-const dropdown = document.querySelector("input[name=intervalDropdown]");
-console.log(dropdown);
+const dropdown = document.querySelector("select[name=intervalDropdown]");
 let alertAudio = null;
 
 checkbox.addEventListener("change", async (e) => {
@@ -10,7 +9,8 @@ checkbox.addEventListener("change", async (e) => {
     if (e.target.checked && tab.title === "Service Manager") {
         const prefs = {
             monitoring: "true",
-            tabId: tab.id
+            tabId: tab.id,
+            intervalTime: dropdown.value
         }
         chrome.tabs.sendMessage(tab.id, { event: 'initializeAudio' });
         chrome.runtime.sendMessage({ event: 'onStart', prefs });

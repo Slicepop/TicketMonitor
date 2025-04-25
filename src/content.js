@@ -6,6 +6,9 @@ let superscript;
 let incidentCount;
 let tempCount;
 let alertAudio;
+let intervalTime;
+
+chrome.runtime.sendMessage({ event: "pageRefreshed" }); // handles resetting toggle state on page refresh
 
 // Initialize alert audio after user toggles monitor on
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -79,7 +82,7 @@ for(const span of spans) {
 // and alerts user if new incident appears
 function startMonitoring() {
     if(interval) return;
-    document.title = "Service Manager (monitoring)";
+    document.title = "Service Manager 👁 (monitoring)";
     element.click();
     interval = setInterval(() => {
         tempCount = incidentCount;
@@ -125,7 +128,7 @@ function startMonitoring() {
                 stopMonitoring();
             }
         }, 2000);
-    }, 60000); // Default monitor interval, 150000 ms = 2.5 minutes
+    }, intervalSelection);
 }
 
 // Ends monitoring
@@ -141,7 +144,13 @@ function stopMonitoring() {
 // start or stop monitoring
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if(request.action === 'startMonitoring') {
-        startMonitoring();
+        chrome.storage.local.get(["intervalTime"], (result) => {
+            console.log(result.intervalTime);
+            intervalSelection = result.intervalTime * 60000; // interval selection (minutes) * 60000ms
+            if(result.intervalTime === "0") { intervalSelection = 60000 } // default to 1 min
+            startMonitoring();
+        });
+        // startMonitoring();
     } else if (request.action === 'stopMonitoring') {
         stopMonitoring();
     }

@@ -37,13 +37,12 @@ This extension was quickly built and may experience untested issues, so it is ad
 If you experience issues, please let me know so I can fix them.
 
 ### Known Issues
-- Toggle is not switched off when leaving Service Manager so you'll have to manually toggle off then on when returning to a Service Manager tab.
-(TicketMonitor does not interact with any tab other than the active tab when toggled on.)
-- While using current version, it's best to manually toggle TicketMonitor off when you are done monitoring the incidents page.
+- ~~Toggle is not switched off when leaving Service Manager so you'll have to manually toggle off then on when returning to a Service Manager tab.~~ (Fixed 4/25)
+- ~~While using current version, it's best to manually toggle TicketMonitor off when you are done monitoring the incidents page.~~ (Fixed 4/25)
 
 ### Roadmap
-- Interval duration settings for user
+- ~~Interval duration settings for user~~ (Implemented 4/25)
 - Options/settings for audio notification
-- ~~Change title to "Service Manager (monitoring)"~~
+- ~~Change title to "Service Manager (monitoring)"~~ (Implemented 4/24)
 - Monitoring state indicator
 - SLA breach alert

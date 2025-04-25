@@ -11,8 +11,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             chrome.tabs.sendMessage(prefs.tabId, { action: "stopMonitoring" });
             break;
         case 'onStart':
-            chrome.storage.local.set({ monitoring: "true", tabId: prefs.tabId });
+            chrome.storage.local.set({ monitoring: "true", tabId: prefs.tabId, intervalTime: prefs.intervalTime });
             chrome.tabs.sendMessage(prefs.tabId, { action: "startMonitoring" });
+            break;
+        case 'pageRefreshed':
+            chrome.storage.local.set({ monitoring: "false" });
             break;
         default:
             break;
@@ -20,6 +23,4 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     console.log(prefs);
     chrome.storage.local.set(prefs);
-
-    
 });
