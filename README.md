@@ -29,8 +29,9 @@ Git
 ### Usage
 1. Navigate to "REQUESTS" page in Service Manager
 2. Open TicketMonitor extension
-3. Toggle the switch on
-4. Set tab aside until alerted of new ticket
+3. Select refresh interval duration (if not selected will default to 1 min)
+4. Toggle the switch on
+5. Set tab aside until alerted of new ticket
 
 ### Best Practice
 This extension was quickly built and may experience untested issues, so it is advised now and then to manually check the incident page.
