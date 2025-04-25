@@ -91,6 +91,9 @@ function startMonitoring() {
             console.log(superscript);
             console.log(incidentCount);
             if(incidentCount > tempCount) {
+                const incident = document.getElementById('accordion0');
+                const incidentChild = incident.firstElementChild;
+                const subject = incidentChild.children[15].textContent.trim();
                 const requestNum = document.getElementById('requestNum').textContent.trim();
 
                 Swal.fire({
@@ -99,7 +102,7 @@ function startMonitoring() {
                     icon: 'warning',
                     iconColor: '#4ddfd4',
                     background: '#282a2b',
-                    // text: 'This is a SweetAlert in a Chrome Extension!',
+                    text: 'Subject - ' + subject,
                     confirmButtonText: 'Take me there!',
                     confirmButtonColor: '#07ada1',
                     showCancelButton: true,

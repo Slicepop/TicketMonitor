@@ -1,4 +1,6 @@
 const checkbox = document.querySelector("input[name=monitorCheckbox]");
+const dropdown = document.querySelector("input[name=intervalDropdown]");
+console.log(dropdown);
 let alertAudio = null;
 
 checkbox.addEventListener("change", async (e) => {
@@ -31,12 +33,4 @@ chrome.storage.local.get(["monitoring"], (result) => {
     }
 
     checkbox.checked = monitoring === "true";
-
-    /*
-    if(monitoring === "true") {
-        checkbox.checked = true;
-    } else {
-        checkbox.checked = false;
-    }
-    */
 });
