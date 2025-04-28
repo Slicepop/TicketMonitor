@@ -34,16 +34,24 @@ Git
 5. Set tab aside until alerted of new ticket
 
 ### Best Practice
-This extension was quickly built and may experience untested issues, so it is advised now and then to manually check the incident page.
-If you experience issues, please let me know so I can fix them.
-
-### Known Issues
-- ~~Toggle is not switched off when leaving Service Manager so you'll have to manually toggle off then on when returning to a Service Manager tab.~~ (Fixed 4/25)
-- ~~While using current version, it's best to manually toggle TicketMonitor off when you are done monitoring the incidents page.~~ (Fixed 4/25)
+If you experience issues while using TicketMonitor, please let me know so I can fix them.
+<br>
+If you have feature ideas or opinions about functionality, also let me know so I can tailor TicketMonitor to best assist all users!
 
 ### Roadmap
-- ~~Interval duration settings for user~~ (Implemented 4/25)
 - Options/settings for audio notification
-- ~~Change title to "Service Manager (monitoring)"~~ (Implemented 4/24)
-- Monitoring state indicator
 - SLA breach alert
+
+### Changelog
+Version 0.3.0 (4/28)
+- Interval selection stored between uses
+- Monitoring toggles off upon closing tab
+- Monitoring toggles off when changing interval
+- Updated icon to eye logo
+
+Version 0.2.0 (4/25)
+- Interval duration settings
+- Alert + sound notification when a new ticket appears
+- Title updates to "Service Manager 👁 (monitoring)" to indicate monitor state
+- Updated styles to "boxy" look for consistency
+- Bugfix: toggle not updating after page refresh
