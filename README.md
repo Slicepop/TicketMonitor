@@ -43,13 +43,13 @@ If you have feature ideas or opinions about functionality, also let me know so I
 - SLA breach alert
 
 ### Changelog
-Version 0.3.0 (4/28)
+v0.3.0 (4/28)
 - Interval selection stored between uses
 - Monitoring toggles off upon closing tab
 - Monitoring toggles off when changing interval
 - Updated icon to eye logo
 
-Version 0.2.0 (4/25)
+v0.2.0 (4/25)
 - Interval duration settings
 - Alert + sound notification when a new ticket appears
 - Title updates to "Service Manager 👁 (monitoring)" to indicate monitor state

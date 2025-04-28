@@ -41,6 +41,15 @@ chrome.storage.local.get(["monitoring"], (result) => {
     checkbox.checked = monitoring === "true";
 });
 
-dropdown.addEventListener("change", () => {
+dropdown.addEventListener("change", async () => {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
     chrome.storage.local.set({ intervalValue: dropdown.value })
+    const prefs = {
+        monitoring: "false",
+        tabId: tab.id
+    }
+
+    chrome.runtime.sendMessage({ event: 'onStop', prefs });
+    checkbox.checked = false;
 });

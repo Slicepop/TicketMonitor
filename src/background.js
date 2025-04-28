@@ -24,3 +24,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log(prefs);
     chrome.storage.local.set(prefs);
 });
+
+chrome.tabs.onRemoved.addListener((closedTabId, removeInfo) => {
+    chrome.storage.local.get(["monitoring", "tabId"], (result) => {
+        const { monitoring, tabId } = result;
+
+        if(monitoring === "true" && tabId === closedTabId) {
+            chrome.storage.local.set({ monitoring: "false" }, () => {
+                console.log("Monitor stopped.");
+            });
+        }
+    });
+});
