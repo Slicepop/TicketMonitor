@@ -33,7 +33,6 @@ for(const span of spans) {
         // Delay due to page rendering time
         setTimeout(() => {
             incidentCount = parseInt(superscript.textContent.trim());
-            console.log(incidentCount);
         }, 2000);
         break;
     }
@@ -55,8 +54,7 @@ function startMonitoring() {
         setTimeout(() => {
             superscript = element.nextElementSibling;
             incidentCount = parseInt(superscript.textContent.trim());
-            console.log(superscript);
-            console.log(incidentCount);
+
             if(incidentCount > tempCount) {
                 const incident = document.getElementById('accordion0');
                 const incidentChild = incident.firstElementChild;
@@ -108,7 +106,6 @@ function stopMonitoring() {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if(request.action === 'startMonitoring') {
         chrome.storage.local.get(["intervalTime"], (result) => {
-            console.log(result.intervalTime);
             intervalSelection = result.intervalTime * 60000; // interval selection (minutes) * 60000ms
             if(result.intervalTime === "0") { intervalSelection = 60000 } // default to 1 min
             startMonitoring();

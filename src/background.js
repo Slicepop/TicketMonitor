@@ -22,7 +22,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             break;
     }
 
-    console.log(prefs);
     chrome.storage.local.set(prefs);
 });
 
