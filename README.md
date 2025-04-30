@@ -4,8 +4,8 @@
 Browser extension for Service Manager that can be toggled on to monitor incoming tickets and alert you when a new ticket arrives.
 
 <p float="left">
-    <img src="/src/tmshowcase.PNG" alt="TicketMonitor" width="100" />
-    <img src="/src/alertshowcase.PNG" alt="Alert" width="100" />
+    <img src="/src/tmshowcase.PNG" alt="TicketMonitor" />
+    <img src="/src/alertshowcase.PNG" alt="Alert" />
 </p>
 
 ### Requirements
