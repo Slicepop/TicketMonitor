@@ -3,6 +3,9 @@
 ### Description
 Browser extension for Service Manager that can be toggled on to monitor incoming tickets and alert you when a new ticket arrives.
 
+<img src="/src/tmshowcase.PNG" alt="TicketMonitor"/>
+<img src="/src/alertshowcase.PNG" alt="Alert" />
+
 ### Requirements
 TicketMonitor is supported on Chromium-based browsers. (ex: Chrome, Edge, Opera)
 
