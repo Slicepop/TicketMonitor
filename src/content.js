@@ -1,5 +1,3 @@
-// console.log('content js loaded');
-
 let interval;
 let element;
 let superscript;
@@ -25,42 +23,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 });
 
-// For testing purposes only
-/*
-setTimeout(() => {
-    const incident = document.getElementById('accordion0');
-    const incidentChild = incident.firstElementChild;
-    const subject = incidentChild.children[15].textContent.trim();
-    const requestNum = document.getElementById('requestNum').textContent.trim();
-
-    Swal.fire({
-        color: '#fff',
-        title: 'A new ticket just landed!',
-        icon: 'warning',
-        iconColor: '#4ddfd4',
-        background: '#282a2b',
-        text: 'Subject - ' + subject,
-        confirmButtonText: 'Take me there!',
-        confirmButtonColor: '#07ada1',
-        showCancelButton: true,
-        cancelButtonText: 'Close',
-        reverseButtons: true,
-        // timer: '15000',
-        // timerProgressBar: true,
-        theme: 'auto',
-        padding: '0 0 2.5rem',
-    }).then((result) => {
-        if(result.isConfirmed) {
-            window.open('https://support.wmed.edu/LiveTime/WebObjects/LiveTime.woa/wa/LookupRequest?sourceId=New&requestId=' + requestNum);
-        }
-    });
-
-    if(alertAudio) {
-        alertAudio.play().catch(err => console.warn('Audio play blocked:', err));
-    }
-}, 15000);
-*/
-
 // Find INCIDENTS element and the number
 // of incidents in it's superscript
 const spans = document.querySelectorAll("span");
@@ -82,12 +44,14 @@ for(const span of spans) {
 // and alerts user if new incident appears
 function startMonitoring() {
     if(interval) return;
+
     document.title = "Service Manager 👁 (monitoring)";
     element.click();
+
     interval = setInterval(() => {
         tempCount = incidentCount;
-        console.log(tempCount);
         element.click();
+
         setTimeout(() => {
             superscript = element.nextElementSibling;
             incidentCount = parseInt(superscript.textContent.trim());
@@ -99,6 +63,7 @@ function startMonitoring() {
                 const subject = incidentChild.children[15].textContent.trim();
                 const requestNum = document.getElementById('requestNum').textContent.trim();
 
+                // SweetAlert
                 Swal.fire({
                     color: '#fff',
                     title: 'A new ticket just landed!',
@@ -111,8 +76,6 @@ function startMonitoring() {
                     showCancelButton: true,
                     cancelButtonText: 'Close',
                     reverseButtons: true,
-                    // timer: '15000',
-                    // timerProgressBar: true,
                     theme: 'auto',
                     padding: '0 0 2.5rem',
                 }).then((result) => {

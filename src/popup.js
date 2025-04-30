@@ -2,11 +2,12 @@ const checkbox = document.querySelector("input[name=monitorCheckbox]");
 const dropdown = document.querySelector("select[name=intervalDropdown]");
 let alertAudio = null;
 
+// If there is a stored interval value, get it and update dropdown value
 let interval = chrome.storage.local.get(["intervalValue"], (result) => {
     if(result) {
         dropdown.value = result.intervalValue;
     }
-})
+});
 
 checkbox.addEventListener("change", async (e) => {
     // Get active tab
@@ -30,6 +31,7 @@ checkbox.addEventListener("change", async (e) => {
     }
 });
 
+// Check monitoring state when popup is opened and update toggle accordingly
 chrome.storage.local.get(["monitoring"], (result) => {
     const { monitoring } = result;
 
@@ -41,6 +43,7 @@ chrome.storage.local.get(["monitoring"], (result) => {
     checkbox.checked = monitoring === "true";
 });
 
+// Watch dropdown value changes and stop monitoring if interval is changed
 dropdown.addEventListener("change", async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 

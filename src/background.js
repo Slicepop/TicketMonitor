@@ -2,6 +2,7 @@ let data = {
     "event": "onStop/onStart",
 }
 
+// Handle monitor start/stop and page refresh events
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const { event, prefs } = message;
 
@@ -25,6 +26,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     chrome.storage.local.set(prefs);
 });
 
+// If active tab is closed, stop monitoring
 chrome.tabs.onRemoved.addListener((closedTabId, removeInfo) => {
     chrome.storage.local.get(["monitoring", "tabId"], (result) => {
         const { monitoring, tabId } = result;
