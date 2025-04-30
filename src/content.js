@@ -8,6 +8,13 @@ let intervalTime;
 
 chrome.runtime.sendMessage({ event: "pageRefreshed" }); // handles resetting toggle state on page refresh
 
+// Find INCIDENTS element and it's superscript (number of incidents)
+element = document.querySelector("#rightpanel > zsd-user-requestlist > div.row.rowoverride > div.mb-3.col-10 > ul > li:nth-child(2) > span")
+superscript = element.nextElementSibling;
+setTimeout(() => {
+    incidentCount = parseInt(superscript.textContent.trim());
+}, 2000);
+
 // Initialize alert audio after user toggles monitor on
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if(message.event === "initializeAudio") {
@@ -22,21 +29,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
     }
 });
-
-// Find INCIDENTS element and the number
-// of incidents in it's superscript
-const spans = document.querySelectorAll("span");
-for(const span of spans) {
-    if(span.textContent.trim() === "INCIDENTS") {
-        element = span;
-        superscript = span.nextElementSibling;
-        // Delay due to page rendering time
-        setTimeout(() => {
-            incidentCount = parseInt(superscript.textContent.trim());
-        }, 2000);
-        break;
-    }
-}
 
 // Begin monitoring incidents
 // Refreshes incident queue on an interval
