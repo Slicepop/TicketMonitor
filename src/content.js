@@ -12,6 +12,36 @@ document.querySelectorAll('zsd-requestalert').forEach(e => {
     e.style.borderRadius = '16px';
 })
 
+// check if Dark Reader is active on page visit
+function darkReaderActive() {
+    return !!document.querySelector('meta[name="darkreader"]');
+}
+
+// update subject line background color based on Dark Reader status
+if (darkReaderActive()) {
+    document.querySelector("#editRequest > div.card.request-subject.common-subject-description-card.ml-0 > div").style.backgroundColor = '#252929';
+} else {
+    document.querySelector("#editRequest > div.card.request-subject.common-subject-description-card.ml-0 > div").style.backgroundColor = '#c2d9ff';
+}
+
+function observeDarkReader() {
+    const target = document.querySelector("#editRequest > div.card.request-subject.common-subject-description-card.ml-0 > div");
+    if(document.querySelector('meta[name="darkreader"]')) {
+        target.style.backgroundColor = '#252929';
+    } else {
+        target.style.backgroundColor = '#c2d9ff';
+    }
+}
+
+const observer = new MutationObserver(() => {
+    observeDarkReader();
+});
+
+observer.observe(document.head, {
+    childList: true,
+    subtree: false
+});
+
 // Find INCIDENTS element and it's superscript (number of incidents)
 element = document.querySelector("#rightpanel > zsd-user-requestlist > div.row.rowoverride > div.mb-3.col-10 > ul > li:nth-child(2) > span")
 superscript = element.nextElementSibling;
