@@ -8,6 +8,7 @@ let intervalTime;
 
 chrome.runtime.sendMessage({ event: "pageRefreshed" }); // handles resetting toggle state on page refresh
 
+if(window.location.href.includes("https://support.wmed.edu/LiveTime/WebObjects/LiveTime.woa/")) {
 document.querySelectorAll('zsd-requestalert').forEach(e => {
     e.style.borderRadius = '16px';
 })
@@ -41,6 +42,7 @@ observer.observe(document.head, {
     childList: true,
     subtree: false
 });
+}
 
 // Find INCIDENTS element and it's superscript (number of incidents)
 element = document.querySelector("#rightpanel > zsd-user-requestlist > div.row.rowoverride > div.mb-3.col-10 > ul > li:nth-child(2) > span")
