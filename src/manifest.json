@@ -24,6 +24,7 @@
         {
           "matches": ["https://support.wmed.edu/LiveTime/WebObjects/*"],
           "js": ["sweetalert2.all.min.js", "content.js"],
+          "css": ["injectedstyles.css"],
           "run_at": "document_idle"
         }
       ]

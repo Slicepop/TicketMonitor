@@ -1,0 +1,100 @@
+div.card.requestalertcard,
+div.card.overrideslacard,
+div.card.proposedsolutioncard,
+div.card.requestlinkcard,
+div.card {
+    border-radius: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+div.card-title.requestalert_cardtitle,
+div.card-title.requestsla_cardtitle,
+div.card-title.proposedsolution_cardtitle,
+div.card-title.requestlink_cardtitle,
+#zen_tools > div > div.card-header {
+    border-radius: 16px 16px 0 0;
+}
+
+div.card.request-subject.common-subject-description-card.ml-0 {
+    border-radius: 16px 16px 0 0 !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+div.request_subject {
+    align-items: center;
+}
+
+div.priority_requestnumber {
+    border-radius: 16px 0;
+}
+
+p.request-number {
+    margin-top: -2px;
+}
+
+p.priority_boxshape.p_medium {
+    border-radius: 16px 0 0 0;
+}
+
+/* email body */
+div.card.mt-3.tab-card.common-subject-description-card.ml-0 {
+    border-radius: 0 0 16px 16px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+div.description-attachhment-toggle-tab.mb-2 {
+    padding-left: 16px;
+    padding-top: 8px;
+    display: flex;
+    align-items: center;
+}
+
+#description-tab > div:nth-child(1) {
+    padding-left: 10px;
+    margin-right: -34px;
+}
+
+/* notes and following sections */
+div.card.note-header, div.card.nsd-card {
+    box-shadow: none !important;
+}
+
+div.card-header.requestnote-card-header.collapsed {
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+}
+
+div.card-header.requestnote-card-header {
+    border-radius: 16px 16px 0 0;
+    display: flex;
+    align-items: center;
+}
+
+div.card.requestnotecard.mb-0,
+div.card.requestgeneralcard.mb-0,
+div.card.auditdetailcard.mb-0 {
+    border-radius: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    border: none !important;
+}
+
+div.card.note-card-override.p-4 {
+    border-radius: 0 0 16px 16px;
+    box-shadow: none !important;
+}
+
+div.card.cardOverride {
+    box-shadow: none !important;
+}
+
+div.card-header.general-card-header,
+div.card-header.audit-card-header {
+    border-radius: 16px 16px 0 0;
+    position: relative;
+}
+
+div.card-header.general-card-header.collapsed,
+div.card-header.audit-card-header.collapsed {
+    border-radius: 16px;
+}
