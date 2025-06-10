@@ -50,6 +50,11 @@ div.card-body.subject-card-body {
 }
 
 /* email body */
+div#descText.nonediatblemode {
+    margin-top: -18px;
+    margin-left: 2px;
+}
+
 div.card.mt-3.tab-card.common-subject-description-card.ml-0 {
     border-radius: 0 0 16px 16px !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
