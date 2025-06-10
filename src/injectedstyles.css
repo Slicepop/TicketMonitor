@@ -76,6 +76,7 @@ div.card-header.requestnote-card-header.collapsed {
     border-radius: 16px;
     display: flex;
     align-items: center;
+    transition: border-radius .3s ease .2s;
 }
 
 div.card-header.requestnote-card-header {
@@ -110,4 +111,5 @@ div.card-header.audit-card-header {
 div.card-header.general-card-header.collapsed,
 div.card-header.audit-card-header.collapsed {
     border-radius: 16px;
+    transition: border-radius .3s ease .2s;
 }
