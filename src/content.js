@@ -86,7 +86,7 @@ function startMonitoring() {
             if(incidentCount > tempCount) {
                 const incident = document.getElementById('accordion0');
                 const incidentChild = incident.firstElementChild;
-                const subject = incidentChild.children[15].textContent.trim();
+                const subject = document.querySelector("#accordion0 > tr > td:nth-child(12)").textContent.trim();
                 const requestNum = document.getElementById('requestNum').textContent.trim();
 
                 // SweetAlert
