@@ -43,18 +43,24 @@ If you experience issues while using TicketMonitor, please let me know so I can 
 <br>
 If you have feature ideas or opinions about functionality, also let me know so I can tailor TicketMonitor to best assist all users!
 
-### Roadmap
-- Options/settings for audio notification
-- SLA breach alert
-
 ### Changelog
-v0.3.0 (4/28)
+v0.4.0 (6/9/25)
+The Cozy Update
+- Frontend overhaul, featuring modernized styling and various margin/centering inconsistencies
+- Rounded component borders
+- Updated box shadows
+- Coloring rework on some components
+- Joined email subject line/body and updated margins/padding
+- Dark Reader compatibility patch
+- Various bug fixes
+
+v0.3.0 (4/28/25)
 - Interval selection stored between uses
 - Monitoring toggles off upon closing tab
 - Monitoring toggles off when changing interval
 - Updated icon to eye logo
 
-v0.2.0 (4/25)
+v0.2.0 (4/25/25)
 - Interval duration settings
 - Alert + sound notification when a new ticket appears
 - Title updates to "Service Manager 👁 (monitoring)" to indicate monitor state

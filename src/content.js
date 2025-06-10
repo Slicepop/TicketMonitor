@@ -8,40 +8,40 @@ let intervalTime;
 
 chrome.runtime.sendMessage({ event: "pageRefreshed" }); // handles resetting toggle state on page refresh
 
-if(window.location.href.includes("https://support.wmed.edu/LiveTime/WebObjects/LiveTime.woa/")) {
-document.querySelectorAll('zsd-requestalert').forEach(e => {
-    e.style.borderRadius = '16px';
-})
+if(window.location.href.includes("https://support.wmed.edu/LiveTime/WebObjects/LiveTime.woa/wa/")) {
+    document.querySelectorAll('zsd-requestalert').forEach(e => {
+        e.style.borderRadius = '16px';
+    })
 
-// check if Dark Reader is active on page visit
-function darkReaderActive() {
-    return !!document.querySelector('meta[name="darkreader"]');
-}
-
-// update subject line background color based on Dark Reader status
-if (darkReaderActive()) {
-    document.querySelector("#editRequest > div.card.request-subject.common-subject-description-card.ml-0 > div").style.backgroundColor = '#252929';
-} else {
-    document.querySelector("#editRequest > div.card.request-subject.common-subject-description-card.ml-0 > div").style.backgroundColor = '#c2d9ff';
-}
-
-function observeDarkReader() {
-    const target = document.querySelector("#editRequest > div.card.request-subject.common-subject-description-card.ml-0 > div");
-    if(document.querySelector('meta[name="darkreader"]')) {
-        target.style.backgroundColor = '#252929';
-    } else {
-        target.style.backgroundColor = '#c2d9ff';
+    // check if Dark Reader is active on page visit
+    function darkReaderActive() {
+        return !!document.querySelector('meta[name="darkreader"]');
     }
-}
 
-const observer = new MutationObserver(() => {
-    observeDarkReader();
-});
+    // update subject line background color based on Dark Reader status
+    if (darkReaderActive()) {
+        document.querySelector("#editRequest > div.card.request-subject.common-subject-description-card.ml-0 > div").style.backgroundColor = '#252929';
+    } else {
+        document.querySelector("#editRequest > div.card.request-subject.common-subject-description-card.ml-0 > div").style.backgroundColor = '#c2d9ff';
+    }
 
-observer.observe(document.head, {
-    childList: true,
-    subtree: false
-});
+    function observeDarkReader() {
+        const target = document.querySelector("#editRequest > div.card.request-subject.common-subject-description-card.ml-0 > div");
+        if(document.querySelector('meta[name="darkreader"]')) {
+            target.style.backgroundColor = '#252929';
+        } else {
+            target.style.backgroundColor = '#c2d9ff';
+        }
+    }
+
+    const observer = new MutationObserver(() => {
+        observeDarkReader();
+    });
+
+    observer.observe(document.head, {
+        childList: true,
+        subtree: false
+    });
 }
 
 // Find INCIDENTS element and it's superscript (number of incidents)
