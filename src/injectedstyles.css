@@ -38,7 +38,10 @@ p.request-number {
     font-weight: 500;
 }
 
-p.priority_boxshape.p_medium {
+p.priority_boxshape.p_low,
+p.priority_boxshape.p_medium,
+p.priority_boxshape.p_high,
+p.priority_boxshape.p_urgent { 
     border-radius: 16px 0 0 0;
 }
 
@@ -52,7 +55,6 @@ div.card-body.subject-card-body {
 /* email body */
 div#descText.nonediatblemode {
     margin-top: -18px;
-    margin-left: 2px;
 }
 
 div.card.mt-3.tab-card.common-subject-description-card.ml-0 {
@@ -69,6 +71,7 @@ div.description-attachhment-toggle-tab.mb-2 {
 
 #description-tab > div:nth-child(1) {
     padding-left: 10px;
+    margin-left: 8px;
     margin-right: -34px;
 }
 
