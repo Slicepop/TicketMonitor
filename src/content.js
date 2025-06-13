@@ -92,7 +92,7 @@ function startMonitoring() {
                     alertAudio.play().catch(err => console.warn('Audio play blocked:', err));
                 }
 
-                stopMonitoring();
+                // stopMonitoring();
             }
         }, 2000);
     }, intervalSelection);
