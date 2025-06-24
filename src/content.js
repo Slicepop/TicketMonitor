@@ -222,6 +222,10 @@ function startMonitoring() {
                 requestNum
             );
           }
+          const refreshIcon = document.querySelector(
+            "#requestfiltercard > div.card-body.pt-0 > zsd-requestfilter > div.main-filter-wrapper > div.tabheader > span.reseticon"
+          );
+          if (refreshIcon) refreshIcon.click();
         });
 
         if (alertAudio) {
