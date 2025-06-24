@@ -96,7 +96,6 @@ function startMonitoring() {
   if (interval) return;
 
   document.title = "👁 Service Manager";
-  element.click(); // Click to ensure the incident list is active
 
   // Initial fetch to set the baseline incidentCount and lastKnownActionDate
   fetchIncidentData()
