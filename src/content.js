@@ -1,11 +1,11 @@
 let interval;
 let element;
-let incidentCount; // Still useful for initial baseline or overall change, but not primary trigger
-let lastKnownActionDate = null; // New variable to store the timestamp
+let incidentCount = -1; // Initialize to -1 to ensure first fetch sets it
+let lastKnownActionDate = null;
 let alertAudio;
 let intervalSelection;
 
-chrome.runtime.sendMessage({ event: "pageRefreshed" }); // handles resetting toggle state on page refresh
+chrome.runtime.sendMessage({ event: "pageRefreshed" });
 
 if (
   window.location.href.includes(
@@ -21,16 +21,14 @@ if (
     #editRequest > div.card.request-subject.common-subject-description-card.ml-0 > div {
         background-color: #c2d9ff !important;
     }
-    `;
+  `;
   document.head.appendChild(style);
 }
 
-// Find INCIDENTS element (only needed for the initial click, not for count)
 element = document.querySelector(
   "#rightpanel > zsd-user-requestlist > div.row.rowoverride > div.mb-3.col-10 > ul > li:nth-child(2) > span"
 );
 
-// Initialize alert audio after user toggles monitor on
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.event === "initializeAudio") {
     if (!alertAudio) {
@@ -48,7 +46,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-// Helper function to fetch incident data
 async function fetchIncidentData() {
   const response = await fetch(
     "https://support.wmed.edu/LiveTime/services/v1/user/requests/search?currentPage=incident&offset=0&limit=40&sortBy=requestNumber&sortOrder=DESC&filterId=176&locale=en-GB",
@@ -80,7 +77,6 @@ async function fetchIncidentData() {
   }
 
   const data = await response.json();
-  // Ensure data has the expected structure before accessing properties
   if (
     !data ||
     typeof data.resultCount === "undefined" ||
@@ -91,37 +87,47 @@ async function fetchIncidentData() {
   return data;
 }
 
-// Begin monitoring incidents
-function startMonitoring() {
-  if (interval) return;
+async function initializeMonitoringData() {
+  try {
+    const data = await fetchIncidentData();
+    incidentCount = data.resultCount;
+    console.log(`Initial incident count: ${incidentCount}`);
+
+    if (data.results && data.results.length > 0) {
+      const latestIncident = data.results[0];
+      const lastActionDateValue = latestIncident.values.find(
+        (v) => v.columnName === "lastActionDate"
+      );
+      if (lastActionDateValue && lastActionDateValue.value) {
+        lastKnownActionDate = new Date(lastActionDateValue.value);
+        console.log(
+          `Initial last action date: ${lastKnownActionDate.toLocaleString()}`
+        );
+      }
+    }
+  } catch (error) {
+    console.error("Error during initial fetch for incident data:", error);
+    // Don't start interval if initial fetch fails significantly
+    throw error;
+  }
+}
+
+async function startMonitoring() {
+  if (interval) {
+    console.log("Monitoring already started.");
+    return;
+  }
 
   document.title = "👁 Service Manager";
 
-  // Initial fetch to set the baseline incidentCount and lastKnownActionDate
-  fetchIncidentData()
-    .then((data) => {
-      incidentCount = data.resultCount; // Set initial count
-      console.log(`Initial incident count: ${incidentCount}`);
-
-      if (data.results && data.results.length > 0) {
-        const latestIncident = data.results[0];
-        const lastActionDateValue = latestIncident.values.find(
-          (v) => v.columnName === "lastActionDate"
-        );
-        if (lastActionDateValue) {
-          // Convert the date string to a Date object for reliable comparison
-          lastKnownActionDate = new Date(lastActionDateValue.value);
-          console.log(
-            `Initial last action date: ${lastKnownActionDate.toLocaleString()}`
-          );
-        }
-      }
-    })
-    .catch((error) => {
-      console.error("Error during initial fetch for incident data:", error);
-      // You might want to stop monitoring or show an error to the user here
-      return; // Prevent starting the interval if initial fetch fails
-    });
+  try {
+    await initializeMonitoringData(); // Ensure initial data is set before starting interval
+  } catch (error) {
+    console.error(
+      "Failed to initialize monitoring data. Not starting interval."
+    );
+    return;
+  }
 
   interval = setInterval(async () => {
     try {
@@ -130,83 +136,83 @@ function startMonitoring() {
       console.log(`Current fetched incident count: ${newIncidentCount}`);
 
       let isNewActivity = false;
+      let changeType = "";
       let subject = "Subject not found";
       let requestNum = "N/A";
 
-      if (data.results && data.results.length > 0) {
+      if (newIncidentCount > incidentCount) {
+        // --- Case 1: A brand new ticket has arrived ---
+        isNewActivity = true;
+        changeType = "new ticket";
+        console.log("Detected: New ticket");
+
+        if (data.results && data.results.length > 0) {
+          const latestIncident = data.results[0]; // The very first item should be the newest by sort order
+          const subjectValue = latestIncident.values.find(
+            (v) => v.columnName === "subject"
+          );
+          if (subjectValue) subject = subjectValue.value;
+
+          const requestNumValue = latestIncident.values.find(
+            (v) => v.columnName === "requestNumber"
+          );
+          if (requestNumValue) requestNum = requestNumValue.value;
+
+          const lastActionDateValue = latestIncident.values.find(
+            (v) => v.columnName === "lastActionDate"
+          );
+          if (lastActionDateValue && lastActionDateValue.value) {
+            lastKnownActionDate = new Date(lastActionDateValue.value); // Update lastKnownActionDate with the newest ticket's date
+          }
+        }
+      } else if (data.results && data.results.length > 0) {
+        // --- Case 2: No new ticket count, check for updates to existing tickets ---
         const currentLatestIncident = data.results[0];
         const currentLastActionDateValue = currentLatestIncident.values.find(
           (v) => v.columnName === "lastActionDate"
         );
 
-        if (currentLastActionDateValue) {
+        if (currentLastActionDateValue && currentLastActionDateValue.value) {
           const currentLastActionDate = new Date(
             currentLastActionDateValue.value
           );
 
+          // Check if currentLastActionDate is strictly greater than the last known
           if (
-            !lastKnownActionDate || // If it's the very first check after a refresh (or error)
+            lastKnownActionDate &&
             currentLastActionDate.getTime() > lastKnownActionDate.getTime()
           ) {
-            // New activity detected (either new ticket or existing ticket updated)
             isNewActivity = true;
-            // Update lastKnownActionDate to the latest one
-            lastKnownActionDate = currentLastActionDate;
+            changeType = "update to an existing ticket";
+            console.log("Detected: Update to existing ticket");
 
-            // Extract subject and request number for the alert
             const subjectValue = currentLatestIncident.values.find(
               (v) => v.columnName === "subject"
             );
-            if (subjectValue) {
-              subject = subjectValue.value;
-            }
+            if (subjectValue) subject = subjectValue.value;
 
             const requestNumValue = currentLatestIncident.values.find(
               (v) => v.columnName === "requestNumber"
             );
-            if (requestNumValue) {
-              requestNum = requestNumValue.value;
-            }
+            if (requestNumValue) requestNum = requestNumValue.value;
+
+            lastKnownActionDate = currentLastActionDate; // Update lastKnownActionDate
           }
         }
       }
 
-      // Also check if resultCount explicitly increased, for a robust check
-      // This handles cases where new ticket appears *after* the latest in the current view
-      if (!isNewActivity && newIncidentCount > incidentCount) {
-        isNewActivity = true;
-        console.log("New incident count detected as primary trigger.");
-        // In this case, you might need to refetch details specifically for the new incident
-        // or assume the first one is the "new" one if sortOrder is DESC
-        if (data.results && data.results.length > 0) {
-          const latestIncident = data.results[0]; // Still assuming newest is first
-          const subjectValue = latestIncident.values.find(
-            (v) => v.columnName === "subject"
-          );
-          if (subjectValue) {
-            subject = subjectValue.value;
-          }
-          const requestNumValue = latestIncident.values.find(
-            (v) => v.columnName === "requestNumber"
-          );
-          if (requestNumValue) {
-            requestNum = requestNumValue.value;
-          }
-        }
-      }
-
-      // Update incidentCount for baseline for next loop, regardless of alert
+      // Update incidentCount regardless of activity detection for the next cycle
       incidentCount = newIncidentCount;
 
       if (isNewActivity) {
-        // SweetAlert
+        document.title = "📣 Service Manager";
         Swal.fire({
           color: "#fff",
-          title: "A new ticket or update just landed!",
+          title: `A ${changeType} just landed!`,
           icon: "warning",
           iconColor: "#4ddfd4",
           background: "#282a2b",
-          text: "Subject - " + subject,
+          text: `Subject - ${subject}`,
           confirmButtonText: "Take me there!",
           confirmButtonColor: "#07ada1",
           showCancelButton: true,
@@ -215,10 +221,11 @@ function startMonitoring() {
           theme: "auto",
           padding: "0 0 2.5rem",
         }).then((result) => {
+          document.title = "👁 Service Manager";
+
           if (result.isConfirmed) {
             window.open(
-              "https://support.wmed.edu/LiveTime/WebObjects/LiveTime.woa/wa/LookupRequest?sourceId=New&requestId=" +
-                requestNum
+              `https://support.wmed.edu/LiveTime/WebObjects/LiveTime.woa/wa/LookupRequest?sourceId=New&requestId=${requestNum}`
             );
           }
           const refreshIcon = document.querySelector(
@@ -237,32 +244,28 @@ function startMonitoring() {
       }
     } catch (error) {
       console.error("Error during interval fetch:", error);
-      // Decide what to do on fetch errors: stop monitoring, retry, etc.
-      // For now, it just logs and continues
     }
-  }, intervalSelection); // Using intervalSelection here
+  }, intervalSelection);
 }
 
-// Ends monitoring
 function stopMonitoring() {
   if (interval) {
     clearInterval(interval);
     interval = null;
     document.title = "Service Manager";
-    lastKnownActionDate = null; // Reset on stop
-    console.log("Monitoring stopped. lastKnownActionDate reset.");
+    lastKnownActionDate = null;
+    incidentCount = -1; // Reset incident count as well
+    console.log("Monitoring stopped. State reset.");
   }
 }
 
-// Wait for action message to either
-// start or stop monitoring
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "startMonitoring") {
     chrome.storage.local.get(["intervalTime"], (result) => {
-      intervalSelection = result.intervalTime * 60000; // interval selection (minutes) * 60000ms
+      intervalSelection = result.intervalTime * 60000;
       if (result.intervalTime === "0" || !result.intervalTime) {
-        intervalSelection = 60000;
-      } // default to 1 min if 0 or undefined
+        intervalSelection = 60000; // Default to 1 minute if 0 or not set
+      }
       console.log(
         `Monitoring interval set to: ${intervalSelection / 1000} seconds.`
       );
